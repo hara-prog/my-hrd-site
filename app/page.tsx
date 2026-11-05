@@ -28,7 +28,7 @@ const LAYOUT: "queue" | "stage" | "due" = "stage";
 const UNIT = "本";
 
 /** 依頼の段階。この順に進む。最後まで進むと「実施済み」になる */
-const CATEGORIES = ["未依頼", "依頼済み", "確定"];
+const CATEGORIES = ["案件相談中", "クライアント提案中", "受注（依頼書未発行）", "講師依頼確定"];
 
 /** 研修日がこの日数以内に迫っていて、まだ確定していないものを「要確認」とみなす */
 const ALERT_DAYS = 14;
@@ -81,21 +81,21 @@ const LAST_STAGE = CATEGORIES[CATEGORIES.length - 1];
  * 見本データ。すべて架空の講師名・会社名・研修内容です。
  */
 const SAMPLE: Record[] = [
-  { id: "s01", name: "青木先生", client: "みらい商事",         category: "未依頼",   note: "新入社員向けビジネスマナー／本社5F研修室／集合9:00／講師料8万円", date: ago(-2),  done: false },
-  { id: "s02", name: "白石先生", client: "サンライズ精機",     category: "依頼済み", note: "管理職向けフィードバック研修／集合12:30／講師料12万円",         date: ago(-3),  done: false },
-  { id: "s03", name: "岸本先生", client: "ひなた食品",         category: "確定",     note: "接客応対の基礎／2会場に分けて実施／講師料10万円",              date: ago(-1),  done: false },
-  { id: "s04", name: "森尾先生", client: "北都テクノロジー",   category: "未依頼",   note: "ロジカルシンキング半日／会場未定／講師料の相談がまだ",           date: ago(-5),  done: false },
-  { id: "s05", name: "堀内先生", client: "あおば建設",         category: "依頼済み", note: "安全衛生とハラスメント／現場事務所／集合8:30／講師料9万円",     date: ago(-7),  done: false },
-  { id: "s06", name: "笹本先生", client: "みらい商事",         category: "確定",     note: "2年目フォローアップ／本社5F／集合13:00／講師料8万円",          date: ago(-6),  done: false },
-  { id: "s07", name: "永田先生", client: "コーラルリテール",   category: "未依頼",   note: "店長向けマネジメント／全3回の1回目／日程だけ先に押さえたい",     date: ago(-9),  done: false },
-  { id: "s08", name: "土屋先生", client: "セントラル物流",     category: "依頼済み", note: "リーダーシップ研修／集合10:00／講師料11万円／交通費別途",       date: ago(-12), done: false },
-  { id: "s09", name: "宮下先生", client: "ひかりメディカル",   category: "確定",     note: "対人コミュニケーション／講師料10万円／資料は当日持参",          date: ago(-16), done: false },
-  { id: "s10", name: "野々村先生", client: "アルテミス工業",   category: "未依頼",   note: "新任評価者研修／人事部と内容をすり合わせ中",                   date: ago(-21), done: false },
-  { id: "s11", name: "青木先生", client: "セントラル物流",     category: "確定",     note: "新入社員研修 前半／集合9:00／講師料8万円",                     date: ago(3),   done: true  },
-  { id: "s12", name: "岸本先生", client: "北都テクノロジー",   category: "確定",     note: "プレゼンテーション研修／講師料9万円／請求書受領済み",           date: ago(8),   done: true  },
-  { id: "s13", name: "堀内先生", client: "あおば建設",         category: "確定",     note: "現場リーダー研修／講師料9万円／アンケート回収済み",             date: ago(14),  done: true  },
-  { id: "s14", name: "笹本先生", client: "ひなた食品",         category: "確定",     note: "衛生管理の基礎／講師料7万円／次回の相談あり",                  date: ago(19),  done: true  },
-  { id: "s15", name: "土屋先生", client: "コーラルリテール",   category: "確定",     note: "販売スタッフ向け接客／講師料10万円／実施報告書 提出済み",       date: ago(27),  done: true  },
+  { id: "s01", name: "青木先生", client: "みらい商事",         category: "受注（依頼書未発行）",   note: "新入社員向けビジネスマナー／本社5F研修室／集合9:00／講師料8万円", date: ago(-2),  done: false },
+  { id: "s02", name: "白石先生", client: "サンライズ精機",     category: "受注（依頼書未発行）", note: "管理職向けフィードバック研修／集合12:30／講師料12万円",         date: ago(-3),  done: false },
+  { id: "s03", name: "岸本先生", client: "ひなた食品",         category: "講師依頼確定",     note: "接客応対の基礎／2会場に分けて実施／講師料10万円",              date: ago(-1),  done: false },
+  { id: "s04", name: "森尾先生", client: "北都テクノロジー",   category: "クライアント提案中",   note: "ロジカルシンキング半日／会場未定／講師料の相談がまだ",           date: ago(-5),  done: false },
+  { id: "s05", name: "堀内先生", client: "あおば建設",         category: "受注（依頼書未発行）", note: "安全衛生とハラスメント／現場事務所／集合8:30／講師料9万円",     date: ago(-7),  done: false },
+  { id: "s06", name: "笹本先生", client: "みらい商事",         category: "講師依頼確定",     note: "2年目フォローアップ／本社5F／集合13:00／講師料8万円",          date: ago(-6),  done: false },
+  { id: "s07", name: "永田先生", client: "コーラルリテール",   category: "案件相談中",   note: "店長向けマネジメント／全3回の1回目／日程だけ先に押さえたい",     date: ago(-9),  done: false },
+  { id: "s08", name: "土屋先生", client: "セントラル物流",     category: "クライアント提案中", note: "リーダーシップ研修／集合10:00／講師料11万円／交通費別途",       date: ago(-12), done: false },
+  { id: "s09", name: "宮下先生", client: "ひかりメディカル",   category: "講師依頼確定",     note: "対人コミュニケーション／講師料10万円／資料は当日持参",          date: ago(-16), done: false },
+  { id: "s10", name: "野々村先生", client: "アルテミス工業",   category: "案件相談中",   note: "新任評価者研修／人事部と内容をすり合わせ中",                   date: ago(-21), done: false },
+  { id: "s11", name: "青木先生", client: "セントラル物流",     category: "講師依頼確定",     note: "新入社員研修 前半／集合9:00／講師料8万円",                     date: ago(3),   done: true  },
+  { id: "s12", name: "岸本先生", client: "北都テクノロジー",   category: "講師依頼確定",     note: "プレゼンテーション研修／講師料9万円／請求書受領済み",           date: ago(8),   done: true  },
+  { id: "s13", name: "堀内先生", client: "あおば建設",         category: "講師依頼確定",     note: "現場リーダー研修／講師料9万円／アンケート回収済み",             date: ago(14),  done: true  },
+  { id: "s14", name: "笹本先生", client: "ひなた食品",         category: "講師依頼確定",     note: "衛生管理の基礎／講師料7万円／次回の相談あり",                  date: ago(19),  done: true  },
+  { id: "s15", name: "土屋先生", client: "コーラルリテール",   category: "講師依頼確定",     note: "販売スタッフ向け接客／講師料10万円／実施報告書 提出済み",       date: ago(27),  done: true  },
 ];
 
 /** 一覧をどう束ねるか。対応中は段階ごと、それ以外は1つの束 */
@@ -145,7 +145,9 @@ export default function Home() {
   useEffect(() => {
     try {
       const raw = localStorage.getItem(KEY);
-      setItems(raw ? (JSON.parse(raw) as Record[]) : SAMPLE);
+      const saved = raw ? (JSON.parse(raw) as Record[]) : SAMPLE;
+      // 前の段階名で保存されたデータは、最初の段階に入れて一覧から消えないようにする
+      setItems(saved.map((i) => (CATEGORIES.includes(i.category) ? i : { ...i, category: CATEGORIES[0] })));
       const n = localStorage.getItem(NAME_KEY);
       if (n) setAppName(n);
     } catch {
